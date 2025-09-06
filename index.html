@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starry Events - Discord Roblox Gaming Community</title>
+    <meta name="description" content="Join Starry Events, the premier Discord community for Roblox events with amazing Robux prizes. Connect, compete, and win in exciting gaming experiences!">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Starry Events - Discord Roblox Gaming Community">
+    <meta property="og:description" content="Join our Discord community for exclusive Roblox events with amazing Robux prizes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://starryevents.github.io">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="header" data-testid="header">
+        <div class="container">
+            <div class="header-content">
+            <div class="logo" data-testid="logo">
+
+                <span class="logo-text">Starry Events</span>
+            </div>
+                
+                <nav class="nav" data-testid="navigation">
+                    <button class="nav-link" onclick="scrollToSection('home')" data-testid="link-home">Home</button>
+                    <button class="nav-link" onclick="scrollToSection('announcements')" data-testid="link-announcements">Announcements</button>
+                    <button class="nav-link" onclick="scrollToSection('ongoing')" data-testid="link-ongoing">Ongoing Events</button>
+                    <button class="nav-link" onclick="scrollToSection('scheduled')" data-testid="link-scheduled">Scheduled Events</button>
+                    <button class="nav-link" onclick="scrollToSection('about')" data-testid="link-about">About</button>
+                </nav>
+                
+                <div class="auth-section" data-testid="auth-section">
+                    <button id="loginBtn" class="discord-btn" onclick="loginWithDiscord()" data-testid="button-discord-login">
+                        <i class="fab fa-discord"></i>
+                        <span>Coming soon</span>
+                    </button>
+                    <div id="userInfo" class="user-info hidden" data-testid="user-info">
+                        <img id="userAvatar" class="user-avatar" data-testid="img-user-avatar" alt="User Avatar">
+                        <span id="username" data-testid="text-username"></span>
+                        <button class="logout-btn" onclick="logout()" data-testid="button-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero" data-testid="hero-section">
+        <div class="hero-bg">
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Starry Events</h1>
+            <p class="hero-subtitle">
+                Join our Discord community for exclusive Roblox events with amazing Robux prizes. 
+                Connect, compete, and win in the most exciting gaming experiences!
+            </p>
+            <div class="hero-buttons">
+                <a href="https://discord.gg/starryevents" target="_blank" class="btn-primary" data-testid="button-join-community">
+                    <i class="fab fa-discord"></i>
+                    Join Our Community
+                </a>
+                <button class="btn-secondary" onclick="scrollToSection('ongoing')" data-testid="button-view-events">
+                    View Events
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-separator"></div>
+
+    <section id="announcements" class="announcements-section" data-testid="announcements-section">
+        <div class="container">
+            <h2 class="section-title">Latest Announcements</h2>
+            <p class="section-subtitle">Stay updated with our latest news and updates!</p>
+            
+            <div class="announcements-carousel" data-testid="announcements-carousel">
+                <button class="carousel-btn carousel-btn-prev" onclick="scrollCarousel('left')" data-testid="button-carousel-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="announcements-wrapper" id="announcementsWrapper">
+                    <div id="announcementsContainer" class="announcements-container">
+                        <div id="announcementsLoading" class="loading-message">
+                            <i class="fas fa-spinner fa-spin"></i> Loading announcements...
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="carousel-btn carousel-btn-next" onclick="scrollCarousel('right')" data-testid="button-carousel-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-separator"></div>
+
+    <section id="ongoing" class="section" data-testid="ongoing-events-section">
+        <div class="container">
+            <h2 class="section-title">Ongoing Events</h2>
+            <p class="section-subtitle">Jump into these live events and start winning Robux!</p>
+            
+            <div id="ongoingEventsContainer" class="events-grid">
+
+                <div id="ongoingEventsLoading" class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Loading ongoing events...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-separator"></div>
+
+    <section id="scheduled" class="section" data-testid="scheduled-events-section">
+        <div class="container">
+            <h2 class="section-title">Scheduled Events</h2>
+            <p class="section-subtitle">Mark your calendar for these upcoming events!</p>
+            
+            <div id="scheduledEventsContainer" class="scheduled-events">
+
+                <div id="scheduledEventsLoading" class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Loading scheduled events...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-separator"></div>
+
+    <section id="about" class="section" data-testid="about-section">
+        <div class="container">
+            <h2 class="section-title">About Starry Events</h2>
+            <p class="section-subtitle">
+                Starry Events abides by Discord and Roblox Terms of Service and operates within 
+                Roblox’s tolerance for events in which a host rewards the winner with Robux. Based on prominent 
+                developers who have conducted similar events, we assume this is allowed. If otherwise, please contact us immediately.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card" data-testid="stat-members">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">15,000+</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+
+                <div class="stat-card" data-testid="stat-events">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-number">6000+</div>
+                    <div class="stat-label">Events Hosted</div>
+                </div>
+
+                <div class="stat-card" data-testid="stat-robux">
+                    <div class="stat-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="stat-number">8M+</div>
+                    <div class="stat-label">Robux Awarded from Hosters</div>
+                </div>
+            </div>
+
+            <div class="cta-card">
+                <h3>Ready to Join the Fun?</h3>
+                <p>
+                    Connect with our community today and never miss out on exciting events, competitions, 
+                    and chances to win amazing Robux prizes!
+                </p>
+                <a href="https://discord.gg/starryevents" target="_blank" class="btn-primary" data-testid="button-join-discord">
+                    <i class="fab fa-discord"></i>
+                    Join Our Discord Server
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" data-testid="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo" data-testid="footer-logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="logo-text">Starry Events</span>
+                    </div>
+                    <p class="footer-description" data-testid="footer-description">
+                        The premier Discord community for Roblox events with exciting Robux prizes. 
+                        Join thousands of players in epic gaming experiences!
+                    </p>
+                    <div class="social-links" data-testid="social-links">
+                        <a href="https://discord.gg/starryevents" target="_blank" class="social-link" data-testid="link-social-discord" aria-label="Discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="https://www.roblox.com/communities/34724457/Starry-Events#!/about" target="_blank" class="social-link" data-testid="link-social-roblox" aria-label="Roblox Group">
+                            <i class="fas fa-gamepad"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links" data-testid="quick-links">
+                        <li><button class="footer-link" onclick="scrollToSection('announcements')" data-testid="link-quick-announcements">Announcements</button></li>
+                        <li><button class="footer-link" onclick="scrollToSection('ongoing')" data-testid="link-quick-ongoing-events">Ongoing Events</button></li>
+                        <li><button class="footer-link" onclick="scrollToSection('scheduled')" data-testid="link-quick-scheduled-events">Scheduled Events</button></li>
+                        <li><button class="footer-link" onclick="scrollToSection('about')" data-testid="link-quick-about-us">About Us</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright" data-testid="copyright">
+                    &copy; 2025 Starry Events. All rights reserved. | Not affiliated with Roblox Corporation.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+
+        const DISCORD_CLIENT_ID = 'your_discord_client_id'; 
+        
+
+        let currentUser = null;
+
+        const ONGOING_EVENTS_URL = 'https://raw.githubusercontent.com/ItsBenaYT/infoforweb/main/ongoingevent.json';
+        const SCHEDULED_EVENTS_URL = 'https://raw.githubusercontent.com/ItsBenaYT/infoforweb/main/scheduledevents.json';
+        const ANNOUNCEMENTS_URL = 'https://ongoingeventsbc-default-rtdb.firebaseio.com/announcementsdbJY.json';
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkForStoredUser();
+            handleDiscordCallback();
+            loadEvents(); 
+            loadAnnouncements();
+        });
+
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function loginWithDiscord() {
+            const scope = "gone"
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('starry_user');
+            updateAuthUI();
+        }
+
+        function updateAuthUI() {
+            const loginBtn = document.getElementById('loginBtn');
+            const userInfo = document.getElementById('userInfo');
+            const userAvatar = document.getElementById('userAvatar');
+            const username = document.getElementById('username');
+
+            if (currentUser) {
+                loginBtn.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+
+                const avatarUrl = currentUser.avatar 
+                    ? `https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png`
+                    : 'https://cdn.discordapp.com/embed/avatars/0.png';
+                userAvatar.src = avatarUrl;
+                username.textContent = currentUser.username;
+            } else {
+                loginBtn.classList.remove('hidden');
+                loginBtn.innerHTML = '<i class="fab fa-discord"></i><span>Login with Discord</span>';
+                loginBtn.disabled = false;
+                userInfo.classList.add('hidden');
+            }
+        }
+
+        function checkForStoredUser() {
+            const storedUser = localStorage.getItem('starry_user');
+            if (storedUser) {
+                try {
+                    currentUser = JSON.parse(storedUser);
+                    updateAuthUI();
+                } catch (error) {
+                    console.error('Invalid stored user data:', error);
+                    localStorage.removeItem('starry_user');
+                }
+            }
+        }
+
+        function handleDiscordCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (code) {
+
+                const mockUserData = {
+                    id: '123456789',
+                    username: 'StarryGamer',
+                    avatar: 'a1b2c3d4e5f6g7h8i9j0'
+                };
+                
+                currentUser = mockUserData;
+                localStorage.setItem('starry_user', JSON.stringify(mockUserData));
+                updateAuthUI();
+                
+
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        function joinGame(gameLink) {
+            window.open(gameLink, '_blank');
+        }
+
+        function setReminder(eventTitle, date, time) {
+            alert(`Reminder set for ${eventTitle} on ${date} at ${time}`);
+
+        }
+
+        async function loadEvents() {
+            await Promise.all([
+                loadOngoingEvents(),
+                loadScheduledEvents()
+            ]);
+        }
+
+
+        function scrollCarousel(direction) {
+            const container = document.getElementById('announcementsContainer');
+            const cardWidth = 320 + 24; 
+            const scrollAmount = cardWidth * 2; 
+            
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+
+async function loadAnnouncements() {
+    const container = document.getElementById('announcementsContainer');
+    const loadingElement = document.getElementById('announcementsLoading');
+
+    try {
+        const response = await fetch(ANNOUNCEMENTS_URL);
+        const data = await response.json();
+        console.log("Announcements obtained from Firebase:", data);
+
+        let announcements = data ? Object.values(data) : [];
+
+        if (announcements.length > 0 && announcements[0].timestamp) {
+            announcements.sort((a, b) => b.timestamp - a.timestamp);
+        }
+
+        loadingElement.remove();
+
+        if (announcements.length === 0) {
+            container.innerHTML = `
+                <div class="no-events-message">
+                    <i class="fas fa-bullhorn"></i>
+                    <p>No announcements</p>
+                    <small>Stay tuned for updates!</small>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+
+        const getAnnouncementIcon = (title) => {
+            const titleLower = title.toLowerCase();
+            if (titleLower.includes('event') || titleLower.includes('game')) return 'fas fa-gamepad';
+            if (titleLower.includes('update') || titleLower.includes('new')) return 'fas fa-rocket';
+            if (titleLower.includes('winner') || titleLower.includes('prize')) return 'fas fa-trophy';
+            if (titleLower.includes('rule') || titleLower.includes('important')) return 'fas fa-exclamation-circle';
+            if (titleLower.includes('community') || titleLower.includes('member')) return 'fas fa-users';
+            return 'fas fa-bullhorn';
+        };
+
+        announcements.forEach((announcement, index) => {
+            const iconClass = getAnnouncementIcon(announcement.title);
+
+            container.innerHTML += `
+                <div class="announcement-card" data-testid="card-announcement-${index}">
+                    <div class="announcement-header">
+                        <div class="announcement-icon">
+                            <i class="${iconClass}"></i>
+                        </div>
+                        <h3 class="announcement-title" data-testid="text-announcement-title-${index}">${announcement.title}</h3>
+                    </div>
+                    <p class="announcement-content" data-testid="text-announcement-content-${index}">${announcement.content}</p>
+                </div>
+            `;
+        });
+
+        updateCarouselButtons();
+
+    } catch (error) {
+        console.error('Error loading announcements:', error);
+        loadingElement.innerHTML = `
+            <div class="no-events-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Failed to load announcements</p>
+                <small>Please try refreshing the page</small>
+            </div>
+        `;
+    }
+}
+
+
+        function updateCarouselButtons() {
+            const container = document.getElementById('announcementsContainer');
+            const prevBtn = document.querySelector('.carousel-btn-prev');
+            const nextBtn = document.querySelector('.carousel-btn-next');
+            
+            const isAtStart = container.scrollLeft <= 0;
+            const isAtEnd = container.scrollLeft >= container.scrollWidth - container.clientWidth;
+            
+            prevBtn.style.opacity = isAtStart ? '0.5' : '1';
+            nextBtn.style.opacity = isAtEnd ? '0.5' : '1';
+            prevBtn.style.pointerEvents = isAtStart ? 'none' : 'auto';
+            nextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const container = document.getElementById('announcementsContainer');
+                if (container) {
+                    container.addEventListener('scroll', updateCarouselButtons);
+                }
+            }, 1000);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getTimeAgo(timestamp) {
+    const now = Math.floor(Date.now() / 1000);
+    const diff = now - timestamp;
+
+    if (diff < 60) return `${diff}s ago`;
+    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+    return `${Math.floor(diff/86400)}d ago`;
+}
+async function loadOngoingEvents() {
+    const container = document.getElementById('ongoingEventsContainer');
+    const loadingElement = document.getElementById('ongoingEventsLoading');
+
+    try {
+        const url = "https://ongoingeventsbc-default-rtdb.firebaseio.com/ongoingeventsJO.json";
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("Eventos obtenidos desde Firebase:", data);
+
+        let ongoingEvents = data ? Object.values(data) : [];
+        ongoingEvents.sort((a, b) => b.prize - a.prize);
+        loadingElement.remove();
+
+        if (ongoingEvents.length === 0) {
+            container.innerHTML = `
+                <div class="no-events-message">
+                    <i class="fas fa-calendar-times"></i>
+                    <p>No ongoing events</p>
+                    <small>Check back later for new events!</small>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+
+        ongoingEvents.forEach((event, index) => {
+            let bgColor = 'rgba(255,255,255,0.1)';
+            if (event.prize >= 10000) bgColor = 'rgba(255,215,0,0.2)';
+            else if (event.prize >= 1000) bgColor = 'rgba(138,43,226,0.2)';
+
+            const timeAgo = getTimeAgo(event.timecreated);
+
+            container.innerHTML += `
+                <div class="event-card" data-testid="card-ongoing-event-${index}" style="
+                    background: linear-gradient(135deg, hsla(258, 90%, 66%, 0.15), hsla(142, 69%, 58%, 0.15));
+                    border-radius: 12px;
+                    padding: 16px;
+                    margin-bottom: 16px;
+                    color: white;
+                    display: flex;
+                    flex-direction: column;
+                    cursor: pointer;
+                " onclick="window.location.href='${event.link}'">
+                    <div class="event-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div class="event-prize" style="font-weight: bold; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px;">
+                            ${event.prize} R$
+                        </div>
+                        <div class="event-live" style="display: flex; align-items: center; font-weight: bold; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px;">
+                            <i class="fas fa-circle pulse" style="margin-right:4px;"></i>
+                            LIVE
+                        </div>
+                    </div>
+
+                    <div class="event-content" style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div class="event-image-container" style="
+                            width: 64px; 
+                            height: 64px; 
+                            border-radius: 8px; 
+                            overflow: hidden; 
+                            flex-shrink: 0; 
+                            margin-right: 16px; 
+                            background: ${bgColor}; 
+                            display: flex; 
+                            align-items: center; 
+                            justify-content: center;
+                        ">
+                            <i class="fas fa-gamepad" style="color:white;"></i>
+                        </div>
+                        <div style="flex:1;">
+                            <h3 class="event-title" data-testid="text-ongoing-event-title-${index}" style="margin:0; font-size: 1.1rem;">${event.name}</h3>
+                            <div class="event-time-info" style="display:flex; align-items:center; font-size:0.85rem; opacity:0.8; margin-top:4px;">
+                                <i class="fas fa-clock" style="margin-right:4px;"></i>
+                                ${timeAgo}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:right;">
+                        <button class="event-join-btn" style="
+                            cursor:pointer; 
+                            padding:8px 16px; 
+                            border:none; 
+                            border-radius:6px; 
+                            background: linear-gradient(135deg, var(--primary), var(--accent));
+                            color:white; 
+                            font-weight:bold;
+                            transition: transform 0.2s ease;
+                        " onclick="joinGame('${event.link}'); event.stopPropagation();">
+                            <i class="fas fa-play" style="margin-right:4px;"></i>
+                            Join Game
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        console.error('Error loading ongoing events:', error);
+        loadingElement.innerHTML = `
+            <div class="no-events-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Failed to load ongoing events</p>
+                <small>Please try refreshing the page</small>
+            </div>
+        `;
+    }
+}
+
+
+async function loadScheduledEvents() {
+    const container = document.getElementById('scheduledEventsContainer');
+    const loadingElement = document.getElementById('scheduledEventsLoading');
+
+    try {
+        const url = "https://ongoingeventsbc-default-rtdb.firebaseio.com/scheduledEventsTR.json";
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("Scheduled events obtained from Firebase:", data);
+
+        let scheduledEvents = data ? Object.values(data) : [];
+
+        scheduledEvents.sort((a, b) => a.scheduledtime - b.scheduledtime);
+
+        loadingElement.remove();
+
+        if (scheduledEvents.length === 0) {
+            container.innerHTML = `
+                <div class="no-events-message">
+                    <i class="fas fa-calendar-plus"></i>
+                    <p>No upcoming events</p>
+                    <small>Stay tuned for future events!</small>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+
+        scheduledEvents.forEach((event, index) => {
+            let bgColor = 'rgba(255,255,255,0.1)';
+            if (event.prize >= 10000) bgColor = 'rgba(255,215,0,0.2)';
+            else if (event.prize >= 1000) bgColor = 'rgba(138,43,226,0.2)';
+
+            const scheduledMs = event.scheduledtime * 1000;
+            const scheduledDate = new Date(scheduledMs);
+            const formattedDate = scheduledDate.toLocaleDateString();
+            const formattedTime = scheduledDate.toLocaleTimeString();
+
+            const now = Date.now();
+            const diffMs = scheduledMs - now;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            const timeUntil = diffMs > 0
+                ? `Starts in ${diffDays} days ${diffHours}h ${diffMinutes}m`
+                : `Started ${Math.abs(diffDays)} days ago`;
+
+            container.innerHTML += `
+                <div class="scheduled-card" data-testid="card-scheduled-event-${index}" style="
+                    background: linear-gradient(135deg, hsla(258, 90%, 66%, 0.15), hsla(142, 69%, 58%, 0.15));
+                    border-radius: 12px;
+                    padding: 16px;
+                    margin-bottom: 16px;
+                    color: white;
+                    display: flex;
+                    flex-direction: column;
+                    cursor: pointer;
+                " onclick="window.location.href='${event.link}'">
+
+                    <div class="scheduled-header" style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div class="event-image-container" style="
+                            width: 64px; 
+                            height: 64px; 
+                            border-radius: 8px; 
+                            overflow: hidden; 
+                            flex-shrink: 0; 
+                            background: ${bgColor}; 
+                            display: flex; 
+                            align-items: center; 
+                            justify-content: center;
+                            margin-right: 16px;
+                        ">
+                            <i class="fas fa-calendar" style="color:white;"></i>
+                        </div>
+
+                        <div style="flex:1;">
+                            <h3 class="event-title" data-testid="text-scheduled-event-title-${index}" style="margin:0; font-size:1.1rem;">${event.name}</h3>
+                            <div class="scheduled-prize" style="font-weight:bold; margin-top:4px;">${event.prize} R$</div>
+                            <div class="scheduled-description" style="margin-top:4px; font-size:0.9rem; opacity:0.8;">
+                                ${event.description || 'Upcoming Roblox Event'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scheduled-footer" style="display:flex; justify-content: space-between; align-items: center;">
+                        <div class="scheduled-datetime" style="font-size:0.85rem; opacity:0.8;">
+                            <div><i class="fas fa-clock" style="margin-right:4px;"></i> ${formattedDate} ${formattedTime}</div>
+                            <div>${timeUntil}</div>
+                        </div>
+                        <button class="reminder-btn" style="
+                            cursor:pointer; 
+                            padding:8px 16px; 
+                            border:none; 
+                            border-radius:6px; 
+                            background: linear-gradient(135deg, var(--primary), var(--accent));
+                            color:white; 
+                            font-weight:bold;
+                            transition: transform 0.2s ease;
+                        " onclick="joinGame('${event.link}'); event.stopPropagation();" data-testid="button-join-scheduled-${index}">
+                            View Game
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        console.error('Error loading scheduled events:', error);
+        loadingElement.innerHTML = `
+            <div class="no-events-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Failed to load scheduled events</p>
+                <small>Please try refreshing the page</small>
+            </div>
+        `;
+    }
+}
+
+
+
+
+
+
+
+        function getTimeAgo(unixTimestamp) {
+            const currentTimeSeconds = Math.floor(Date.now() / 1000);
+            const secondsAgo = currentTimeSeconds - unixTimestamp;
+            
+            if (secondsAgo < 60) {
+                return `${secondsAgo} seconds ago`;
+            } else if (secondsAgo < 3600) {
+                const minutesAgo = Math.floor(secondsAgo / 60);
+                return `${minutesAgo} minute${minutesAgo === 1 ? '' : 's'} ago`;
+            } else {
+                const hoursAgo = Math.floor(secondsAgo / 3600);
+                return `${hoursAgo} hour${hoursAgo === 1 ? '' : 's'} ago`;
+            }
+        }
+
+
+        function getTimeUntil(unixTimestamp) {
+            const currentTimeSeconds = Math.floor(Date.now() / 1000);
+            const secondsUntil = unixTimestamp - currentTimeSeconds;
+            
+            if (secondsUntil < 60) {
+                return `Starts in ${secondsUntil} seconds`;
+            } else if (secondsUntil < 3600) {
+                const minutesUntil = Math.floor(secondsUntil / 60);
+                return `Starts in ${minutesUntil} minute${minutesUntil === 1 ? '' : 's'}`;
+            } else if (secondsUntil < 86400) {
+                const hoursUntil = Math.floor(secondsUntil / 3600);
+                return `Starts in ${hoursUntil} hour${hoursUntil === 1 ? '' : 's'}`;
+            } else {
+                const daysUntil = Math.floor(secondsUntil / 86400);
+                return `Starts in ${daysUntil} day${daysUntil === 1 ? '' : 's'}`;
+            }
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            });
+        }
+
+        function extractGameTitle(url) {
+            try {
+
+                const match = url.match(/\/games\/\d+\/([^?]+)/);
+                if (match && match[1]) {
+    
+                    return match[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                }
+                return 'Roblox Game Event';
+            } catch (error) {
+                return 'Roblox Game Event';
+            }
+        }
+
+ 
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const cards = document.querySelectorAll('.event-card, .scheduled-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
