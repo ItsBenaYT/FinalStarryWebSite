@@ -654,7 +654,7 @@ async function loadScheduledEvents() {
             const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
             const timeUntil = diffMs > 0
-                ? `Starts in ${diffDays} days ${diffHours}h ${diffMinutes}m`
+                ? `In ${diffDays} days ${diffHours}h ${diffMinutes}m`
                 : `Started ${Math.abs(diffDays)} days ago`;
 
             container.innerHTML += `
